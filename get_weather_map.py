@@ -19,7 +19,12 @@ def download(url: str, path_save: str) -> None:
     print("done.")
 
 
-def get_pdf_analysis(dir_name: str) -> None:
+def get_pdf_analysis(dir_name_base: str) -> None:
+    # ディレクトリ作成
+    dir_name = dir_name_base + "analysis\\"
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+
     # ASAS: アジア地上解析天気図
     download("http://www.data.jma.go.jp/fcd/yoho/data/wxchart/quick/ASAS_COLOR.pdf", dir_name+"ASAS.pdf")
 
@@ -36,7 +41,12 @@ def get_pdf_analysis(dir_name: str) -> None:
     download("https://www.jma.go.jp/jp/metcht/pdf/kosou/axfe578_12.pdf", dir_name+"12UTC_AXFE578.pdf")
 
 
-def get_pdf_forecast(dir_name: str) -> None:
+def get_pdf_forecast(dir_name_base: str) -> None:
+    # ディレクトリ作成
+    dir_name = dir_name_base + "forecast\\"
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+
     # ASAS: アジア地上予想天気図
     download("http://www.data.jma.go.jp/fcd/yoho/data/wxchart/quick/FSAS24_COLOR_ASIA.pdf", dir_name+"ASAS_FT24.pdf")
     download("http://www.data.jma.go.jp/fcd/yoho/data/wxchart/quick/FSAS48_COLOR_ASIA.pdf", dir_name+"ASAS_FT48.pdf")
@@ -56,22 +66,30 @@ def get_pdf_forecast(dir_name: str) -> None:
     download("https://www.jma.go.jp/jp/metcht/pdf/kosou/fxjp854_12.pdf", dir_name+"12UTC_FXJP854.pdf")
 
 
+def get_pdf_doc(dir_name_base: str) -> None:
+    # ディレクトリ作成
+    dir_name = dir_name_base + "doc\\"
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+
+    # 解説資料
+    download("https://www.sunny-spot.net/chart/DOC1.pdf", dir_name+"週間天気予報解説資料.pdf")
+    download("https://www.sunny-spot.net/chart/DOC2.pdf", dir_name+"短期予報解説資料.pdf")
+    download("https://www.sunny-spot.net/chart/FCXX92.pdf", dir_name+"全般季節予報資料.pdf")
+
+
 def main():
+    # 時刻から共通のディレクトリ名を生成
     dir_name_base = create_dir_name_base()
 
-    dir_name_analysis = dir_name_base + "analysis\\"
-    if not os.path.exists(dir_name_analysis):
-        os.makedirs(dir_name_analysis)
-
-    dir_name_forecast = dir_name_base + "forecast\\"
-    if not os.path.exists(dir_name_forecast):
-        os.makedirs(dir_name_forecast)
-
     # 実況天気図, 解析図
-    get_pdf_analysis(dir_name_analysis)
+    get_pdf_analysis(dir_name_base)
 
     # 予想天気図, 数値予報天気図
-    get_pdf_forecast(dir_name_forecast)
+    get_pdf_forecast(dir_name_base)
+
+    # 解説資料
+    get_pdf_doc(dir_name_base)
 
 
 if __name__ == '__main__':
