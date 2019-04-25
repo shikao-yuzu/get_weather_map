@@ -66,6 +66,22 @@ def get_pdf_forecast(dir_name_base: str) -> None:
     download("https://www.jma.go.jp/jp/metcht/pdf/kosou/fxjp854_12.pdf", dir_name+"12UTC_FXJP854.pdf")
 
 
+def get_pdf_forecast_week(dir_name_base: str) -> None:
+    # ディレクトリ作成
+    dir_name = dir_name_base + "forecast_week\\"
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+
+    # 週間予報支援図
+    download("https://www.sunny-spot.net/chart/FXXN519.pdf", dir_name+"週間予報支援図.pdf")
+
+    # 週間予報支援図(アンサンブル)
+    download("https://www.sunny-spot.net/chart/QZCX50.pdf", dir_name+"週間予報支援図(アンサンブル).pdf")
+
+    # 週間アンサンブル予想図
+    download("https://www.sunny-spot.net/chart/FEFE19.pdf", dir_name+"週間アンサンブル予想図.pdf")
+
+
 def get_pdf_doc(dir_name_base: str) -> None:
     # ディレクトリ作成
     dir_name = dir_name_base + "doc\\"
@@ -87,6 +103,9 @@ def main():
 
     # 予想天気図, 数値予報天気図
     get_pdf_forecast(dir_name_base)
+
+    # 週間予報
+    get_pdf_forecast_week(dir_name_base)
 
     # 解説資料
     get_pdf_doc(dir_name_base)
